@@ -158,8 +158,5 @@ int main()
 {
     Pipe truba;
     Pepe ceh;
-    truba.name = "Uchastok 1";
-    cout << truba.name;
     Menu(truba, ceh);
-    return 0;
 }
