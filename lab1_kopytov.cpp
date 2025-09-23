@@ -1,7 +1,7 @@
 ﻿#include <iostream>
 #include <string>
 #include <limits>
-#include <fstream> // добавляем для работы с файлами
+#include <fstream>
 
 using namespace std;
 
@@ -28,7 +28,7 @@ struct Pepe {
 };
 
 void saveToFile(Pipe t, Pepe c) {
-    ofstream file("data.txt"); // создаем файл для записи
+    ofstream file("data.txt"); 
     if (file.is_open()) {
         file << "Pipe parameters:\n";
         file << "Name: " << t.name << "\n";
@@ -54,10 +54,10 @@ void saveToFile(Pipe t, Pepe c) {
 void Menu(Pipe t, Pepe c) {
     while (1)
     {
-        cout << "Choose one:\n1. Pipe\n2. Pepe\n3. Show All\n4. Save to file\n"; // добавляем пункт 4
+        cout << "Choose one:\n1. Pipe\n2. Pepe\n3. Show All\n4. Save to file\n"; 
         int type;
         cin >> type;
-        if (cin.fail() || type > 4 || type < 1) { // меняем на 4
+        if (cin.fail() || type > 4 || type < 1) {
             check();
         }
         switch (type)
@@ -97,7 +97,7 @@ void Menu(Pipe t, Pepe c) {
                     check();
                 }
                 else {
-                    t.repair = (trig == 1); // сохраняем значение
+                    t.repair = (trig == 1); 
                 }
                 break;
             }
