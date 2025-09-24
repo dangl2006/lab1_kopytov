@@ -6,10 +6,10 @@
 using namespace std;
 
 struct Pipe {
-    string name;
-    float length;
-    int diametr;
-    bool repair;
+    string name = "";       
+    float length = 0.0;
+    int diametr = 0;
+    bool repair = false;
 };
 
 void check() {
@@ -20,15 +20,15 @@ void check() {
 }
 
 struct Pepe {
-    string name;
-    int ceh;
-    int rabceh;
-    bool working;
-    string clstan;
+    string name = "";
+    int ceh = 0;
+    int rabceh = 0;
+    bool working = false;
+    string clstan = "";
 };
 
-void saveToFile(Pipe t, Pepe c) {
-    ofstream file("data.txt"); 
+void saveToFile(Pipe& t, Pepe& c) { 
+    ofstream file("data.txt");
     if (file.is_open()) {
         file << "Pipe parameters:\n";
         file << "Name: " << t.name << "\n";
@@ -51,14 +51,15 @@ void saveToFile(Pipe t, Pepe c) {
     }
 }
 
-void Menu(Pipe t, Pepe c) {
+void Menu(Pipe& t, Pepe& c) { 
     while (1)
     {
-        cout << "Choose one:\n1. Pipe\n2. Pepe\n3. Show All\n4. Save to file\n"; 
+        cout << "Choose one:\n1. Pipe\n2. Pepe\n3. Show All\n4. Save to file\n";
         int type;
         cin >> type;
         if (cin.fail() || type > 4 || type < 1) {
             check();
+            continue; 
         }
         switch (type)
         {
@@ -68,12 +69,13 @@ void Menu(Pipe t, Pepe c) {
             cin >> option;
             if (cin.fail() || option > 4 || option < 1) {
                 check();
+                continue;
             }
             switch (option)
             {
             case 1:
                 cout << "Enter Pipe name: ";
-                cin >> t.name;
+                cin >> t.name;  
                 break;
             case 2:
                 cout << "Enter pipe length (km): ";
@@ -97,7 +99,7 @@ void Menu(Pipe t, Pepe c) {
                     check();
                 }
                 else {
-                    t.repair = (trig == 1); 
+                    t.repair = (trig == 1);
                 }
                 break;
             }
@@ -106,6 +108,10 @@ void Menu(Pipe t, Pepe c) {
             cout << "Choose option:\n1. Add Pepe\n2. Quantity of Pepe\n3. Quantity working\n4. Classification\n5. Is Pepe working?\n";
             int option2;
             cin >> option2;
+            if (cin.fail() || option2 > 5 || option2 < 1) {  
+                check();
+                continue;
+            }
             switch (option2)
             {
             case 1:
@@ -144,11 +150,28 @@ void Menu(Pipe t, Pepe c) {
             }
             break;
         case 3:
-            cout << "\nPipe parameters: \n" << "Name: " << t.name << "\nLength: " << t.length << "\nDiametr: " << t.diametr << "\nOn repair: " << t.repair;
-            cout << "\nPepe parameters: \n" << "Name: " << c.name << "\nQuantity: " << c.ceh << "\nOn working: " << c.rabceh << "\nClassification: " << c.clstan << "\nWorking: " << c.working;
+            cout << "\n=== Pipe parameters ===" << endl;
+            if (t.name.empty()) {
+                cout << "No pipe data available" << endl;
+            }
+            else {
+                cout << "Name: " << t.name << "\nLength: " << t.length
+                    << "\nDiameter: " << t.diametr << "\nOn repair: "
+                    << (t.repair ? "Yes" : "No") << endl;  //Тернарный оператор
+            }
+
+            cout << "\n=== Pepe parameters ===" << endl;
+            if (c.name.empty()) {
+                cout << "No pepe data available" << endl;
+            }
+            else {
+                cout << "Name: " << c.name << "\nQuantity: " << c.ceh
+                    << "\nWorking: " << c.rabceh << "\nClassification: "
+                    << c.clstan << "\nIs working: " << (c.working ? "Yes" : "No") << endl;
+            }
             break;
         case 4:
-            saveToFile(t, c); 
+            saveToFile(t, c);
             break;
         }
     }
