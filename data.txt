@@ -1,12 +1,2 @@
-Pipe parameters:
-Name: exfcnjr
-Length: 80
-Diameter: 20
-On repair: 1
-
-Pepe parameters:
-Name: 
-Quantity: -858993460
-Working: -858993460
-Classification: 
-Is working: 204
+גהלד 30 50 0
+ 0 0 0 

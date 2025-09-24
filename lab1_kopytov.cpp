@@ -6,7 +6,7 @@
 using namespace std;
 
 struct Pipe {
-    string name = "";       
+    string name = "";
     float length = 0.0;
     int diametr = 0;
     bool repair = false;
@@ -27,159 +27,152 @@ struct Pepe {
     string clstan = "";
 };
 
-void saveToFile(Pipe& t, Pepe& c) { 
-    ofstream file("data.txt");
-    if (file.is_open()) {
-        file << "Pipe parameters:\n";
-        file << "Name: " << t.name << "\n";
-        file << "Length: " << t.length << "\n";
-        file << "Diameter: " << t.diametr << "\n";
-        file << "On repair: " << t.repair << "\n\n";
+void loadFromFile(Pipe& t, Pepe& c) {
+    ifstream file("data.txt");
+    if (!file.is_open()) {
+        cout << "No saved data found\n";
+        return;
+    }
 
-        file << "Pepe parameters:\n";
-        file << "Name: " << c.name << "\n";
-        file << "Quantity: " << c.ceh << "\n";
-        file << "Working: " << c.rabceh << "\n";
-        file << "Classification: " << c.clstan << "\n";
-        file << "Is working: " << c.working << "\n";
+
+    file >> t.name >> t.length >> t.diametr >> t.repair;
+    file >> c.name >> c.ceh >> c.rabceh >> c.working >> c.clstan;
+
+    file.close();
+    cout << "Data loaded!\n";
+}
+
+
+void saveToFile(Pipe& t, Pepe& c) {
+    ofstream file("data.txt");
+    if (file.is_open()) {      
+        file << t.name << " " << t.length << " " << t.diametr << " " << t.repair << endl;
+        file << c.name << " " << c.ceh << " " << c.rabceh << " " << c.working << " " << c.clstan;
 
         file.close();
-        cout << "Data saved to file 'data.txt'\n";
+        cout << "Data saved!\n";
     }
     else {
-        cout << "Error: cannot open file!\n";
+        cout << "Save error!\n";
     }
 }
 
-void Menu(Pipe& t, Pepe& c) { 
-    while (1)
+void Menu(Pipe& t, Pepe& c) {
+    while (true) 
     {
-        cout << "Choose one:\n1. Pipe\n2. Pepe\n3. Show All\n4. Save to file\n";
+        cout << "\n1. Pipe 2. Pepe 3. Show 4. Save 5. Load 6. Exit\n";
         int type;
         cin >> type;
-        if (cin.fail() || type > 4 || type < 1) {
+
+        if (cin.fail() || type < 1 || type > 6) {
             check();
-            continue; 
+            continue;
         }
-        switch (type)
-        {
-        case 1:
-            cout << "\nChoose option:\n1. Add Pipe\n2. Pipe length\n3. Pipe diametr\n4. Repair\n";
-            int option;
-            cin >> option;
-            if (cin.fail() || option > 4 || option < 1) {
+
+        switch (type) {
+        case 1: {
+            cout << "1.Name 2.Length 3.Diametr 4.Repair\n";
+            int opt;
+            cin >> opt;
+
+            if (cin.fail() || opt < 1 || opt > 4) {
                 check();
-                continue;
-            }
-            switch (option)
-            {
-            case 1:
-                cout << "Enter Pipe name: ";
-                cin >> t.name;  
                 break;
-            case 2:
-                cout << "Enter pipe length (km): ";
-                cin >> t.length;
-                if (cin.fail() || t.length <= 0) {
-                    check();
-                }
-                break;
-            case 3:
-                cout << "Enter pipe diametr (mm): ";
-                cin >> t.diametr;
-                if (cin.fail() || t.diametr <= 0) {
-                    check();
-                }
-                break;
-            case 4:
-                cout << "Is pipe on repair (0-no, 1-yes)?\n";
-                int trig;
-                cin >> trig;
-                if (cin.fail() || (trig != 0 && trig != 1)) {
-                    check();
-                }
-                else {
-                    t.repair = (trig == 1);
-                }
-                break;
-            }
-            break;
-        case 2:
-            cout << "Choose option:\n1. Add Pepe\n2. Quantity of Pepe\n3. Quantity working\n4. Classification\n5. Is Pepe working?\n";
-            int option2;
-            cin >> option2;
-            if (cin.fail() || option2 > 5 || option2 < 1) {  
-                check();
-                continue;
-            }
-            switch (option2)
-            {
-            case 1:
-                cout << "Enter Pepe name: ";
-                cin >> c.name;
-                break;
-            case 2:
-                cout << "Quantity of Pepe: ";
-                cin >> c.ceh;
-                if (cin.fail() || c.ceh <= 0) {
-                    check();
-                }
-                break;
-            case 3:
-                cout << "Quantity working: ";
-                cin >> c.rabceh;
-                if (cin.fail() || c.rabceh < 0 || c.rabceh > c.ceh) {
-                    check();
-                }
-                break;
-            case 4:
-                cout << "Classification: ";
-                cin >> c.clstan;
-                break;
-            case 5:
-                cout << "Is Pepe working? (1-yes,0-no)";
-                int trig1;
-                cin >> trig1;
-                if (cin.fail() || (trig1 != 0 && trig1 != 1)) {
-                    check();
-                }
-                else {
-                    c.working = (trig1 == 1);
-                }
-                break;
-            }
-            break;
-        case 3:
-            cout << "\n=== Pipe parameters ===" << endl;
-            if (t.name.empty()) {
-                cout << "No pipe data available" << endl;
-            }
-            else {
-                cout << "Name: " << t.name << "\nLength: " << t.length
-                    << "\nDiameter: " << t.diametr << "\nOn repair: "
-                    << (t.repair ? "Yes" : "No") << endl;  //Тернарный оператор
             }
 
-            cout << "\n=== Pepe parameters ===" << endl;
-            if (c.name.empty()) {
-                cout << "No pepe data available" << endl;
+            if (opt == 1) {
+                cout << "Name: ";
+                cin >> t.name;
             }
-            else {
-                cout << "Name: " << c.name << "\nQuantity: " << c.ceh
-                    << "\nWorking: " << c.rabceh << "\nClassification: "
-                    << c.clstan << "\nIs working: " << (c.working ? "Yes" : "No") << endl;
+            else if (opt == 2) {
+                cout << "Length: ";
+                cin >> t.length;
+                if (cin.fail() || t.length <= 0) check();
+            }
+            else if (opt == 3) {
+                cout << "Diametr: ";
+                cin >> t.diametr;
+                if (cin.fail() || t.diametr <= 0) check();
+            }
+            else if (opt == 4) {
+                cout << "Repair (1-yes, 0-no): ";
+                int r;
+                cin >> r;
+                t.repair = (r == 1);
             }
             break;
+        }
+
+        case 2: {
+            cout << "1.Name 2.Quantity 3.Working 4.Class 5.Status\n";
+            int opt;
+            cin >> opt;
+
+            if (cin.fail() || opt < 1 || opt > 5) {
+                check();
+                break;
+            }
+
+            if (opt == 1) {
+                cout << "Name: ";
+                cin >> c.name;
+            }
+            else if (opt == 2) {
+                cout << "Quantity: ";
+                cin >> c.ceh;
+                if (cin.fail() || c.ceh <= 0) check();
+            }
+            else if (opt == 3) {
+                cout << "Working: ";
+                cin >> c.rabceh;
+                if (cin.fail() || c.rabceh < 0 || c.rabceh > c.ceh) check();
+            }
+            else if (opt == 4) {
+                cout << "Class: ";
+                cin >> c.clstan;
+            }
+            else if (opt == 5) {
+                cout << "Working (1-yes, 0-no): ";
+                int w;
+                cin >> w;
+                c.working = (w == 1);
+            }
+            break;
+        }
+
+        case 3:
+            cout << "\n--- Pipe ---\n";
+            cout << "Name: " << (t.name.empty() ? "No data" : t.name) << endl;
+            cout << "Length: " << t.length << endl;
+            cout << "Diametr: " << t.diametr << endl;
+            cout << "Repair: " << (t.repair ? "Yes" : "No") << endl;
+
+            cout << "\n--- Pepe ---\n";
+            cout << "Name: " << (c.name.empty() ? "No data" : c.name) << endl;
+            cout << "Quantity: " << c.ceh << endl;
+            cout << "Working: " << c.rabceh << endl;
+            cout << "Class: " << c.clstan << endl;
+            cout << "Status: " << (c.working ? "Yes" : "No") << endl;
+            break;
+
         case 4:
             saveToFile(t, c);
             break;
+
+        case 5:
+            loadFromFile(t, c);
+            break;
+
+        case 6:
+            cout << "Bye!\n";
+            return;
         }
     }
 }
 
-int main()
-{
+int main() {
     Pipe truba;
     Pepe ceh;
     Menu(truba, ceh);
+    return 0;
 }
