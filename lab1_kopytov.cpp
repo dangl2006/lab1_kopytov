@@ -34,7 +34,6 @@ void loadFromFile(Pipe& t, Pepe& c) {
         return;
     }
 
-
     file >> t.name >> t.length >> t.diametr >> t.repair;
     file >> c.name >> c.ceh >> c.rabceh >> c.working >> c.clstan;
 
@@ -42,10 +41,9 @@ void loadFromFile(Pipe& t, Pepe& c) {
     cout << "Data loaded!\n";
 }
 
-
 void saveToFile(Pipe& t, Pepe& c) {
     ofstream file("data.txt");
-    if (file.is_open()) {      
+    if (file.is_open()) {
         file << t.name << " " << t.length << " " << t.diametr << " " << t.repair << endl;
         file << c.name << " " << c.ceh << " " << c.rabceh << " " << c.working << " " << c.clstan;
 
@@ -58,7 +56,7 @@ void saveToFile(Pipe& t, Pepe& c) {
 }
 
 void Menu(Pipe& t, Pepe& c) {
-    while (true) 
+    while (true)
     {
         cout << "\n1. Pipe 2. Pepe 3. Show 4. Save 5. Load 6. Exit\n";
         int type;
@@ -79,26 +77,53 @@ void Menu(Pipe& t, Pepe& c) {
                 check();
                 break;
             }
-
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             if (opt == 1) {
                 cout << "Name: ";
-                cin >> t.name;
+                getline(cin, t.name);
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 2) {
-                cout << "Length: ";
-                cin >> t.length;
-                if (cin.fail() || t.length <= 0) check();
+                if (t.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
+                while (true) {
+                    cout << "Length: ";
+                    cin >> t.length;
+                    if (!cin.fail() && t.length > 0) break;
+                    check();
+                }
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 3) {
-                cout << "Diametr: ";
-                cin >> t.diametr;
-                if (cin.fail() || t.diametr <= 0) check();
+                if (t.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
+                while (true) {
+                    cout << "Diametr: ";
+                    cin >> t.diametr;
+                    if (!cin.fail() && t.diametr > 0) break;
+                    check();
+                }
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 4) {
-                cout << "Repair (1-yes, 0-no): ";
-                int r;
-                cin >> r;
-                t.repair = (r == 1);
+                if (t.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
+                while (true) {
+                    cout << "Repair (1-yes, 0-no): ";
+                    int r;
+                    cin >> r;
+                    if (!cin.fail() && (r == 0 || r == 1)) {
+                        t.repair = (r == 1);
+                        break;
+                    }
+                    check();
+                }
             }
             break;
         }
@@ -112,30 +137,62 @@ void Menu(Pipe& t, Pepe& c) {
                 check();
                 break;
             }
-
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
             if (opt == 1) {
                 cout << "Name: ";
-                cin >> c.name;
+                getline(cin, c.name);
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 2) {
-                cout << "Quantity: ";
-                cin >> c.ceh;
-                if (cin.fail() || c.ceh <= 0) check();
+                if (c.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
+                while (true) {
+                    cout << "Quantity: ";
+                    cin >> c.ceh;
+                    if (!cin.fail() && c.ceh > 0) break;
+                    check();
+                }
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 3) {
-                cout << "Working: ";
-                cin >> c.rabceh;
-                if (cin.fail() || c.rabceh < 0 || c.rabceh > c.ceh) check();
+                if (c.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
+                while (true) {
+                    cout << "Working: ";
+                    cin >> c.rabceh;
+                    if (!cin.fail() && c.rabceh >= 0 && c.rabceh <= c.ceh) break;
+                    check();
+                }
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 4) {
+                if (c.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
                 cout << "Class: ";
                 cin >> c.clstan;
             }
+            // ДОБАВЛЕНО: проверка что имя уже введено
             else if (opt == 5) {
-                cout << "Working (1-yes, 0-no): ";
-                int w;
-                cin >> w;
-                c.working = (w == 1);
+                if (c.name.empty()) {
+                    cout << "Error! First enter Name\n";
+                    break;
+                }
+                while (true) {
+                    cout << "Working (1-yes, 0-no): ";
+                    int w;
+                    cin >> w;
+                    if (!cin.fail() && (w == 0 || w == 1)) {
+                        c.working = (w == 1);
+                        break;
+                    }
+                    check();
+                }
             }
             break;
         }
